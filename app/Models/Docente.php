@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+
+class Docente extends Model
+{
+    protected $table = "docentes";
+    protected $fillable = [
+        "user_id",
+        "fecha_ingreso",
+        "clave",
+        "profesion",
+        "titilo_profesion"
+    ];
+
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class, "user_id");
+    }
+
+    public function data(): HasOneThrough {
+        return $this->hasOneThrough(
+            DataUser::class,
+            User::class,
+            'id',
+            'user_id',
+            'user_id',
+            'id'
+        );
+    }
+}

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -45,5 +46,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function data(): HasOne {
+        return $this->hasOne(DataUser::class, "user_id");
+    }
+
+    public function alumno(): HasOne {
+        return $this->hasOne(Alumno::class, "user_id");
+    }
+
+    public function docente(): HasOne {
+        return $this->hasOne(Docente::class, "user_id");
     }
 }
