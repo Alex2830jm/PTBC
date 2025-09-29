@@ -14,7 +14,7 @@ class Docente extends Model
         "fecha_ingreso",
         "clave",
         "profesion",
-        "titilo_profesion"
+        "titulo_profesion"
     ];
 
     public function user(): BelongsTo {

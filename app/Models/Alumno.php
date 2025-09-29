@@ -13,7 +13,6 @@ class Alumno extends Model
         "user_id",
         "fecha_ingreso",
         "matricula",
-        "user_id",
     ];
 
     public function user(): BelongsTo {
