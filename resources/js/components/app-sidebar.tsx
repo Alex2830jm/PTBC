@@ -15,6 +15,8 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, GraduationCap, LayoutGrid, User, Users } from 'lucide-react';
 import AppLogo from './app-logo';
+import docente from '@/routes/docente';
+import alumno from '@/routes/alumno';
 
 const mainNavItems: NavItem[] = [
     {
@@ -24,12 +26,12 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Alumnos',
-        href: dashboard(),
+        href: alumno.index(),
         icon: Users,
     },
     {
         title: 'Docentes',
-        href: '/docentes',
+        href: docente.index(),
         icon: GraduationCap,
     }
 ];

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -14,18 +15,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::get('docente', [DocenteController::class, 'index'])
-        ->name('docente.index');
+    Route::prefix('docente')->name('docente.')->group(function () {
+        Route::get('/', [DocenteController::class, 'index'])->name('index');
+        Route::get('/registro', [DocenteController::class, 'create'])->name('create');
+        Route::post('/registro', [UserController::class, 'store'])->name('store');
+    });
 
-    Route::get('docente/register', [DocenteController::class, 'create'])
-        ->name("docentes.create");
+    Route::prefix('alumno')->name('alumno.')->group(function () {
+        Route::get('/', [AlumnoController::class, 'index'])->name('index');
+        Route::get('/registro', [AlumnoController::class, 'create'])->name('create');
 
-    Route::post("docente/register", [UserController::class, 'store'])
-        ->name('docentes.store');
-
-    Route::get('alumnos', function () {
-        return Inertia::render('pages/docentes');
-    })->name('alumnos.index');
+    });
 });
 
 require __DIR__.'/settings.php';
