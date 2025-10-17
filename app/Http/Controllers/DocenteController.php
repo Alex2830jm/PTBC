@@ -21,6 +21,7 @@ class DocenteController extends Controller
     }
 
     public function store(Request $request) {
-        
+        $docentes = Docente::with('materias')->get();
+        return response()->json(["docentes" => $docentes]);
     }
 }

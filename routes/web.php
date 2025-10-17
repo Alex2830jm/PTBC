@@ -19,6 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [DocenteController::class, 'index'])->name('index');
         Route::get('/registro', [DocenteController::class, 'create'])->name('create');
         Route::post('/registro', [UserController::class, 'store'])->name('store');
+        Route::get('/materias', [DocenteController::class, 'store']);
     });
 
     Route::prefix('alumno')->name('alumno.')->group(function () {

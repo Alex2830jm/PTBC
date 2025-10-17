@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Docente extends Model
@@ -30,5 +31,9 @@ class Docente extends Model
             'user_id',
             'id'
         );
+    }
+
+    public function materias(): BelongsToMany {
+        return $this->belongsToMany(Materia::class, 'materia_has_docente', 'docente_id', 'materia_id');
     }
 }
