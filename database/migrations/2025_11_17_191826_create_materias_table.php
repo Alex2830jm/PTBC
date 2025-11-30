@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('materias', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("semestre_id");
             $table->string("nombre_materia");
             $table->string("clave_materia");
             $table->timestamps();
+            $table->foreign('semestre_id')
+                ->references('id')
+                ->on('semestres');
         });
 
         Schema::create('materia_has_docente', function (Blueprint $table) {

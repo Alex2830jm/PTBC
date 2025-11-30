@@ -45,7 +45,7 @@ export default function ListDocentes({docentes}: {docentes: ListDocentes[]}) {
 
                         <div className='flex flex-row gap-2'>
                             <Link
-                                href={docente.index()}
+                                href={docente.create()}
                                 className='px-2 py-2 rounded-xl border-2 border-green-200 text-center hover:bg-green-200 hover:text-black'
                             >
                                 <UserPlus className='size-5'/>

@@ -13,10 +13,11 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, GraduationCap, LayoutGrid, User, Users } from 'lucide-react';
+import { BookOpen, Folder, GraduationCap, LayoutGrid, Settings, User, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 import docente from '@/routes/docente';
 import alumno from '@/routes/alumno';
+import gestion from '@/routes/gestion';
 
 const mainNavItems: NavItem[] = [
     {
@@ -33,6 +34,11 @@ const mainNavItems: NavItem[] = [
         title: 'Docentes',
         href: docente.index(),
         icon: GraduationCap,
+    }, 
+    {
+        title: 'Gestión Escolar',
+        href: gestion.home(),
+        icon: Settings
     }
 ];
 

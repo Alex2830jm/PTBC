@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\DocenteController;
+use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,6 +27,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [AlumnoController::class, 'index'])->name('index');
         Route::get('/registro', [AlumnoController::class, 'create'])->name('create');
 
+    });
+
+    Route::prefix('gestion')->name('gestion.')->group(function () {
+        Route::get("/", function () {
+            return Inertia::render('gestion/Index');
+        })->name('home');
+
+        Route::prefix('materias')->name('materias.')->controller(MateriaController::class)->group(function() {
+            Route::get("/", [MateriaController::class, 'index'])->name("index");
+            Route::post('/store', [MateriaController::class, 'store'])->name('store');
+        });
     });
 });
 
