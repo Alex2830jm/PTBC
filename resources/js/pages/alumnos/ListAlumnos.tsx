@@ -28,7 +28,6 @@ interface ListAlumnos {
 }
 
 export default function ListAlumnos({alumnos}: {alumnos: ListAlumnos[]}) {
-    console.log(alumnos)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title='Alumnos' />
@@ -63,10 +62,10 @@ export default function ListAlumnos({alumnos}: {alumnos: ListAlumnos[]}) {
                             <TableRow key={index}>
                                 <TableCell>{alumno.id}</TableCell>
                                 <TableCell>
-                                    <span className='font-semibold text-gray-200'>
+                                    <span className='font-semibold text-gray-700 dark:text-gray-200'>
                                         {`${alumno.data.nombres} ${alumno.data.app} ${alumno.data.apm}`}
                                     </span>
-                                    <p className='text-sm text-gray-300'>{alumno.matricula}</p>
+                                    <p className='text-sm text-gray-500 dark:text-gray-300'>{alumno.matricula}</p>
                                 </TableCell>
                                 <TableCell>Tercer Semestre</TableCell>
                                 <TableCell>

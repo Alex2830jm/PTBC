@@ -1,4 +1,4 @@
-import RegisteredUserController from '@/actions/App/Http/Controllers/Auth/RegisteredUserController';
+import React from 'react'
 import UserController from '@/actions/App/Http/Controllers/UserController';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +10,6 @@ import { BreadcrumbItem } from '@/types'
 import { Form, Head } from '@inertiajs/react';
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 import { LoaderCircle } from 'lucide-react';
-import React from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -34,8 +33,9 @@ export default function CreateAlumnos() {
                     {...UserController.store.form()}
                     disableWhileProcessing
                 >
-                    {({ processing, errors }) => (
+                    {({ processing }) => (
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+                            <Input type='hidden' name='role_id' value={1} />
                             <div className="grid w-full max-w-sm items-center gap-3">
                                 <Label htmlFor="nombres">Nombres(s): </Label>
                                 <Input
@@ -99,24 +99,6 @@ export default function CreateAlumnos() {
                                 />
                             </div>
 
-                            <div className=" grid w-full max-w-sm items-center gap-3">
-                                <Label htmlFor="role_id">Rol: </Label>
-                                <RadioGroup
-                                    name='role_id'
-                                    id='role_id'
-                                >
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="1" id="Alumno" />
-                                        <Label htmlFor="Alumno">Alumno</Label>
-                                    </div>
-
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="2" id="2" />
-                                        <Label htmlFor="2">Docente</Label>
-                                    </div>
-                                </RadioGroup>
-                            </div>
-
                             <div className="grid w-full max-w-sm items-center gap-3">
                                 <Label htmlFor="fecha_nacimiento">
                                     Fecha Nacimiento:
@@ -134,6 +116,7 @@ export default function CreateAlumnos() {
                                 <RadioGroup
                                     name='genero'
                                     id='genero'
+                                    className='flex flex-row'
                                 >
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="M" id="M" />

@@ -13,7 +13,10 @@ class MateriaController extends Controller
      */
     public function index()
     {
-        $materias = Materia::with('docentes')->get();
+        $materias = Materia::with([
+            'docentes',
+            'docentes.data:nombres,app,apm'
+        ])->get();
         //return response()->json(["Materias" => $materias]);
         return Inertia::render("gestion/Materias", [
             'materias' => $materias

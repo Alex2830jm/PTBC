@@ -68,10 +68,10 @@ export default function ListDocentes({docentes}: {docentes: ListDocentes[]}) {
                                 <TableRow key={index}>
                                     <TableCell>{docente.id}</TableCell>
                                     <TableCell>
-                                        <span className='font-semibold text-gray-200'>
+                                        <span className='font-semibold text-gray-700 dark:text-gray-200'>
                                             {`${docente.profesion} ${docente.data.nombres} ${docente.data.app} ${docente.data.apm}`}
                                         </span>
-                                        <p className='text-sm text-gray-300'>{docente.titulo_profesion}</p>
+                                        <p className='text-sm text-gray-500 dark:text-gray-300'>{docente.titulo_profesion}</p>
                                     </TableCell>
                                     <TableCell>28</TableCell>
                                     <TableCell>

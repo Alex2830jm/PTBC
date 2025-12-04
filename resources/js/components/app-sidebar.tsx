@@ -22,7 +22,7 @@ import gestion from '@/routes/gestion';
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: alumno.index(),
         icon: LayoutGrid,
     },
     {
@@ -62,7 +62,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href={alumno.index()} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

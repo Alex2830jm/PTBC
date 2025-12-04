@@ -1,7 +1,5 @@
-import RegisteredUserController from '@/actions/App/Http/Controllers/Auth/RegisteredUserController'
-import DocenteController from '@/actions/App/Http/Controllers/DocenteController'
+import React, { useState } from 'react'
 import UserController from '@/actions/App/Http/Controllers/UserController'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
@@ -9,21 +7,39 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
-import { Form, Head, useForm } from '@inertiajs/react'
+import { Form, Head } from '@inertiajs/react'
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp'
-import { LoaderCircle } from 'lucide-react'
-import React from 'react'
+import { ChevronDownIcon, LoaderCircle } from 'lucide-react'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Calendar } from '@/components/ui/calendar'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Registro de Docentes',
         href: '/docentes'
     }
-]
+];
 
-export default function CreateDocente() {
+interface ListSemestreMaterias {
+    id: number;
+    semestre: string;
+    materias: [
+        {
+            id: number;
+            nombre_materia: string;
+            clave_materia: string;
+        }
+    ];
+}
 
-    const form = useForm();
+export default function CreateDocente({semestres}: {semestres: ListSemestreMaterias[]}) {
+
+    const [open, setOpen] = useState(false);
+    const [date, setDate] = useState<Date | undefined>(undefined);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Registro de Docentes" />
@@ -38,8 +54,10 @@ export default function CreateDocente() {
                     {...UserController.store.form()}
                     disableWhileProcessing
                 >
-                    {({ processing, errors }) => (
+                    {({ processing }) => (
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+                            <Input type='hidden' name='role_id' value={2} />
+
                             <div className="grid w-full max-w-sm items-center gap-3">
                                 <Label htmlFor="nombres">Nombres(s): </Label>
                                 <Input
@@ -103,7 +121,7 @@ export default function CreateDocente() {
                                 />
                             </div>
 
-                            <div className=" grid w-full max-w-sm items-center gap-3">
+                            {/* <div className=" grid w-full max-w-sm items-center gap-3">
                                 <Label htmlFor="role_id">Rol: </Label>
                                 <RadioGroup
                                     name='role_id'
@@ -119,7 +137,7 @@ export default function CreateDocente() {
                                         <Label htmlFor="2">Docente</Label>
                                     </div>
                                 </RadioGroup>
-                            </div>
+                            </div> */}
 
                             <div className="grid w-full max-w-sm items-center gap-3">
                                 <Label htmlFor="fecha_nacimiento">
@@ -138,6 +156,7 @@ export default function CreateDocente() {
                                 <RadioGroup
                                     name='genero'
                                     id='genero'
+                                    className='flex flex-row'
                                 >
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="M" id="M" />
@@ -213,16 +232,63 @@ export default function CreateDocente() {
                                 <Label htmlFor="fecha_ingreso">
                                     Fecha de Ingreso
                                 </Label>
-                                <Input
-                                    type="date"
-                                    name="fecha_ingreso"
-                                    id="fecha_ingreso"
-                                />
+                                <Popover open={open} onOpenChange={setOpen}>
+                                    <PopoverTrigger asChild>
+                                        <div className='flex w-full max-w-sm items-center gap-2'>
+                                            <Input 
+                                                type='text' 
+                                                name='fecha_ingreso'
+                                                id='fecha_ingreso'
+                                                value={date ? date.toLocaleDateString() : "Ingresa la fecha de ingreso"}
+                                            />
+                                            <Button
+                                                type='button'
+                                                variant='outline'
+                                                size='icon'
+                                            >
+                                                <ChevronDownIcon />
+                                            </Button>
+                                        </div>
+                                    </PopoverTrigger>
+                                    <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
+                                        <Calendar
+                                            mode='single'
+                                            selected={date}
+                                            captionLayout='dropdown'
+                                            onSelect={(date) => {
+                                                setDate(date);
+                                                setOpen(false);
+                                            }}
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+
+                            <div className='col-span-full'>
+                                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                                    {semestres.map(({id, semestre, materias}) => (
+                                        <>
+                                            <Card key={id}>
+                                                <CardHeader>
+                                                    <CardTitle>{semestre}</CardTitle>
+                                                    <CardContent>
+                                                        <div className='flex flex-col gap-2'>
+                                                            {materias.map(({id, nombre_materia, clave_materia}) => (
+                                                                <div className='flex items-center gap-3'>
+                                                                    <Checkbox value={id} name='materia_id[]' id={clave_materia}/>
+                                                                    <Label htmlFor={clave_materia} >{nombre_materia}</Label>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </CardContent>
+                                                </CardHeader>
+                                            </Card>
+                                        </>
+                                    ))}
+                                </div>
                             </div>
 
                             <div className="col-span-full border border-gray-200 dark:border-foreground" />
-
-                            
 
                             <Button 
                                 type="submit"
@@ -234,9 +300,11 @@ export default function CreateDocente() {
                                 Guardar Datos del Docente
                             </Button>
                         </div>
+
                     )}
                 </Form>
             </div>
+            
         </AppLayout>
     );
 }

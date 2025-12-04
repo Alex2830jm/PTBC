@@ -82,12 +82,14 @@ class CompleteUserData
     }
 
     private function createDocente($user, $requestData): void {
-        Docente::create([
+        $docente = Docente::create([
             "user_id" => $user->id,
             "fecha_ingreso" => $requestData["fecha_ingreso"],
             "clave" => $requestData["clave"],
             "profesion" => $requestData["profesion"],
             "titulo_profesion" => $requestData["titulo_profesion"],
         ]);
+
+        $docente->materias()->sync($requestData['materia_id'], []);
     }
 }

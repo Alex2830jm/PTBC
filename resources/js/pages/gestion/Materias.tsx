@@ -1,19 +1,17 @@
-import MateriaController from '@/actions/App/Http/Controllers/MateriaController';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types'
 import { Form, Head, usePage } from '@inertiajs/react';
-import { log } from 'console';
-import { ListPlusIcon, LoaderCircle } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 
-import React, { useEffect, useState } from 'react'
-import { toast, Toaster } from 'sonner';
+import React, { useState } from 'react'
+import { Toaster } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -29,16 +27,18 @@ interface listMaterias {
     docentes: [
         {
             id: number,
-            titulo_profesion: Date,
+            titulo_profesion: string,
+            data: {
+                id: number,
+                nombres: string,
+                app: string,
+                apm: string,
+            }
         }
     ];
 }
 export default function Materias({materias}: {materias: listMaterias[]}) {
-
-    const flash = usePage().props; 
     const [modalRegister, setModalRegister] = useState(false);
-
-    console.log("Props: ", flash);
     
     
     return (
@@ -63,7 +63,7 @@ export default function Materias({materias}: {materias: listMaterias[]}) {
                                 </DialogDescription>
                             </DialogHeader>
                             <Form action='/gestion/materias/store' method='POST'>
-                                {({errors, processing}) => (
+                                {({processing}) => (
                                     <>
                                         <div className='grid gap-4'>
                                             <div className='grid gap-3'>
@@ -116,25 +116,41 @@ export default function Materias({materias}: {materias: listMaterias[]}) {
                 <Accordion
                     type='single'
                     collapsible
-                    className='w-full'
-                    defaultValue='1'
                 >
-                    {materias.map((materia, i) => (
-                        <AccordionItem value={materia.id} key={i}>
-                            <AccordionTrigger>{materia.nombre_materia}</AccordionTrigger>
-                            <AccordionContent className='flex flex-col gap-4 text-balance'>
-                                <Table>
-                                    <TableCaption>Docentes Asignados a la materia {materia.nombre_materia}</TableCaption>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Docente</TableHead>
-                                            <TableHead>Plantel</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        
-                                    </TableBody>
-                                </Table>
+                    {materias.map(({id, nombre_materia, docentes}, index) => (
+                        <AccordionItem value={id} key={index}>
+                            <AccordionTrigger>
+                                <span className='font-semibold text-gray-700 dark:text-gray-200'>
+                                    {nombre_materia}
+                                </span>
+                            </AccordionTrigger>
+                            <AccordionContent className='flex flex-col gap-4 text-balance p-3'>
+                                <div className='border border-gray-200 rounded-3xl p-3'>
+                                    <h2 className='text-lg text-gray-600'>Docentes Impartiendo la Materia: <span className='font-semibold'>{nombre_materia}</span></h2>
+                                    <Table>
+                                        <TableCaption>Docentes Asignados a la materia {nombre_materia}</TableCaption>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Docente</TableHead>
+                                                <TableHead>Plantel</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {docentes.map(({id, titulo_profesion, data}) => (
+                                                <TableRow>
+                                                    <TableCell>
+                                                        <span className='font-semibold text-gray-700 dark:text-gray-200'>
+                                                            {` ${data.nombres} ${data.app} ${data.apm}`}
+                                                        </span>
+                                                        <p className='text-sm text-gray-500 dark:text-gray-300'>{titulo_profesion}</p>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </AccordionContent>
                         </AccordionItem>
                     ))}
