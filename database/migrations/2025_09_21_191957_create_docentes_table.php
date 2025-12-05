@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('docentes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("plantel_id");
             $table->date("fecha_ingreso");
             $table->string("clave");
             $table->string("profesion", 10);

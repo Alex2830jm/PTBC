@@ -12,35 +12,59 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, Folder, GraduationCap, LayoutGrid, Settings, User, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 import docente from '@/routes/docente';
 import alumno from '@/routes/alumno';
 import gestion from '@/routes/gestion';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: alumno.index(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Alumnos',
-        href: alumno.index(),
-        icon: Users,
-    },
-    {
-        title: 'Docentes',
-        href: docente.index(),
-        icon: GraduationCap,
-    }, 
-    {
-        title: 'Gestión Escolar',
-        href: gestion.home(),
-        icon: Settings
-    }
-];
+const mainNavItems = {
+    1: [
+        {
+            title: 'Dashboard',
+            href: alumno.index(),
+            icon: LayoutGrid,
+        },
+        {
+            title: 'Alumnos',
+            href: alumno.index(),
+            icon: Users,
+        },
+        {
+            title: 'Docentes',
+            href: docente.index(),
+            icon: GraduationCap,
+        }, 
+        {
+            title: 'Gestión Escolar',
+            href: gestion.home(),
+            icon: Settings
+        }
+    ],
+    2: [
+        {
+            title: 'Dashboard',
+            href: alumno.index(),
+            icon: LayoutGrid,
+        },
+        {
+            title: 'Alumnos',
+            href: alumno.index(),
+            icon: Users,
+        },
+        {
+            title: 'Docentes',
+            href: docente.index(),
+            icon: GraduationCap,
+        }, 
+        {
+            title: 'Grupos',
+            href: alumno.index(),
+            icon: Settings
+        }
+    ]
+};
 
 const footerNavItems: NavItem[] = [
     {
@@ -56,6 +80,9 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const user = usePage().props.auth?.user;
+    const menu = mainNavItems[user.role];
+    
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -71,7 +98,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={menu} />
             </SidebarContent>
 
             <SidebarFooter>

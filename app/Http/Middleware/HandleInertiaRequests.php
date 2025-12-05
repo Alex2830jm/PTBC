@@ -36,7 +36,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
+        /* [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
 
         return [
             ...parent::share($request),
@@ -46,6 +46,18 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
-        ];
+        ]; */
+
+        return array_merge(parent::share($request), [
+            'auth' => [
+                'user' => fn() => $request->user() ? [
+                    'id'    => $request->user()->id,
+                    'name'  => $request->user()->name ?? null,
+                    'role'  => $request->user()->role,
+                    'plantel_id' => $request->user()->docente->docente_id // docente_id = plantel_id
+                        ?? null,
+                ] : null,
+            ],
+        ]);
     }
 }
