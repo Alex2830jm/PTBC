@@ -27,7 +27,11 @@ export default function Index() {
                     </ItemContent>
                     <ItemActions>
                         <Link href={gestion.materias.index()}>
-                            <Button variant='outline' size="sm">
+                            <Button 
+                                variant='outline'
+                                size="sm"
+                                className='cursor-pointer'
+                            >
                                 Ver
                             </Button>
                         </Link>
@@ -44,6 +48,27 @@ export default function Index() {
                         <Button variant='outline' size="sm">
                             Ver
                         </Button>
+                    </ItemActions>
+                </Item>
+                <Item variant='outline'>
+                    <ItemContent>
+                        <ItemTitle>Planteles</ItemTitle>
+                        <ItemDescription>
+                            Se muestra el listado de planteles con los que cuenta la zona 11 de Telebachillerato Comunitario
+                        </ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                        <Link 
+                            href={gestion.planteles.index()}
+                        >
+                            <Button 
+                                variant='outline' 
+                                size="sm"
+                                className='cursor-pointer'
+                            >
+                                Ver
+                            </Button>
+                        </Link>
                     </ItemActions>
                 </Item>
             </div>

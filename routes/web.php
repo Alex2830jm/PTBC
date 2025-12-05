@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\MateriaController;
+use App\Http\Controllers\PlantelesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,6 +38,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::prefix('materias')->name('materias.')->controller(MateriaController::class)->group(function() {
             Route::get("/", [MateriaController::class, 'index'])->name("index");
             Route::post('/store', [MateriaController::class, 'store'])->name('store');
+        });
+
+        Route::prefix("planteles")->name("planteles.")->controller(PlantelesController::class)->group(function () {
+            Route::get("/", "listPlanteles")->name('index');
+            Route::post("/store", "storePlantel")->name("store");
+            Route::get("/{plantel}/grupos", "listGruposByPlantel")->name("grupos");
         });
     });
 });

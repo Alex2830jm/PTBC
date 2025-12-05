@@ -46,26 +46,13 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            //event(new Registered($user));
-
             UserRegistered::dispatch($user, $request->all());
 
             DB::commit();
-
-            /* return response()->json([
-                'success' => true,
-                'message' => 'Usuario registrado exitosamente',
-                'user' => $user->load('dataUser'),
-            ]); */
-
             return redirect()->intended(route('dashboard', absolute: false));
 
         } catch (Exception $e) {
             DB::rollBack();
-            /* return response()->json([
-                'success' => false,
-                'message' => 'Hubo un error al registrar usuario' . $e->getMessage(),
-            ]); */
 
             return redirect()->intended(route('register.store', absolute: false));
         }
