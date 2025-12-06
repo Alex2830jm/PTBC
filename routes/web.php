@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\CalificacionController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\PlantelesController;
@@ -28,6 +29,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [AlumnoController::class, 'index'])->name('index');
         Route::get('/registro', [AlumnoController::class, 'create'])->name('create');
 
+    });
+
+    Route::prefix('calificaciones')->name('calificacion.')->controller(CalificacionController::class)->group(function () {
+        Route::get('/', 'listMaterias')->name('list');
     });
 
     Route::prefix('gestion')->name('gestion.')->group(function () {

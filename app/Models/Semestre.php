@@ -17,4 +17,8 @@ class Semestre extends Model
     public function materias(): HasMany {
         return $this->hasMany(Materia::class, 'semestre_id');
     }
+
+    public function calificaciones(): HasMany {
+        return $this->hasMany(Calificacion::class, "semestre_id");
+    }
 }

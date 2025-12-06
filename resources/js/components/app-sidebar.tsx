@@ -13,11 +13,12 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, GraduationCap, LayoutGrid, Settings, User, Users } from 'lucide-react';
+import { BookOpen, Folder, GraduationCap, LayoutGrid, Settings, SpellCheck, User, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 import docente from '@/routes/docente';
 import alumno from '@/routes/alumno';
 import gestion from '@/routes/gestion';
+import calificacion from '@/routes/calificacion';
 
 const mainNavItems = {
     1: [
@@ -52,6 +53,11 @@ const mainNavItems = {
             title: 'Alumnos',
             href: alumno.index(),
             icon: Users,
+        },
+        {
+            title: 'Calificaciones',
+            href: calificacion.list(),
+            icon: SpellCheck
         },
         {
             title: 'Docentes',

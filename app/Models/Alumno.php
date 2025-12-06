@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Alumno extends Model
@@ -28,5 +29,9 @@ class Alumno extends Model
             'user_id',
             'id'
         );
+    }
+
+    public function  calificaciones(): HasMany {
+        return $this->hasMany(Calificacion::class, "alumno_id");
     }
 }

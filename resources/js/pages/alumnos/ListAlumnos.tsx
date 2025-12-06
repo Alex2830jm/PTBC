@@ -1,12 +1,14 @@
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState, } from '@tanstack/react-table';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import alumno from '@/routes/alumno';
 import { BreadcrumbItem } from '@/types'
-import { Head, Link } from '@inertiajs/react';
-import { UserPlus } from 'lucide-react';
-import React from 'react'
+import { Head, Link, usePage } from '@inertiajs/react';
+import { MoreHorizontal, UserPlus } from 'lucide-react';
+import React, { useState } from 'react'
+import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -16,18 +18,122 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface ListAlumnos {
-    id: number,
-    fecha_ingreso: Date,
+    alumno_id: number,
+    alumno: string,
     matricula: string,
-    data: {
-        nombres: string,
-        app: string,
-        apm: string,
-        genero: string,
-    }
+    plantel_id: number,
+    semestre: string,
 }
 
+export type Alumnos = {
+    id: string,
+    alumno: string,
+    semestre: string,
+}
+
+export const columns: ColumnDef<ListAlumnos>[] = [
+    {
+        accessorKey: 'id',
+        header: 'Id',
+        cell: ({row}) => (
+            <div className='capitalize'>{row.original.alumno_id}</div>
+        )
+    },
+    {
+        id: 'alumno',
+        header: 'Alumno',
+        cell: ({row}) => (
+            <>
+                <span className='font-semibold text-gray-700 dark:text-gray-200'>
+                    {row.original.alumno}
+                </span>
+                <p className='text-sm text-gray-500 dark:text-gray-300'>{row.original.matricula}</p>
+            </>
+        )
+    },
+    {
+        accessorKey: 'semestre',
+        header: 'Semestre',
+        cell: ({row}) => (
+            <div className='capitalize'>{row.original.semestre}</div>
+        )
+    },
+    {
+        accessorKey: 'plantel_id',
+        header: 'Plantel',
+        cell: ({row}) => (
+            <div className='capitalize'>{row.original.plantel_id}</div>
+        )
+    },
+    {
+        id: 'actions',
+        enableHiding: false,
+        cell: ({row}) => {
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant='ghost' className='size-8 p-0'>
+                            <MoreHorizontal />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align='end'>
+                        <DropdownMenuLabel>Datos</DropdownMenuLabel>
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem>
+                                Editar Datos
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                Baja Temporal
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                Baja Definitiva
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuLabel>Formatos</DropdownMenuLabel>
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem>
+                                Reporte de Calificaciones
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                Constancia de Estudios
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        }
+    }
+];
+
 export default function ListAlumnos({alumnos}: {alumnos: ListAlumnos[]}) {
+    const user = usePage().props.auth?.user;
+
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+    const [rowSelection, setRowSelection] = useState({});
+
+    const table = useReactTable<ListAlumnos>({
+        data: alumnos,
+        columns,
+        onSortingChange: setSorting,
+        onColumnFiltersChange: setColumnFilters,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        onColumnVisibilityChange: setColumnVisibility,
+        onRowSelectionChange: setRowSelection,
+        state: {
+            sorting,
+            columnFilters,
+            columnVisibility,
+            rowSelection,
+        },
+    });
+    
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title='Alumnos' />
@@ -48,40 +154,51 @@ export default function ListAlumnos({alumnos}: {alumnos: ListAlumnos[]}) {
                 </div>
                 
                 <Table>
-                    <TableCaption>Lista de Alumnos</TableCaption>
                     <TableHeader>
-                        <TableRow>
-                            <TableHead>#</TableHead>
-                            <TableHead>Alumno</TableHead>
-                            <TableHead>Semestre</TableHead>
-                            <TableHead>Acciones</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {alumnos.map((alumno, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{alumno.id}</TableCell>
-                                <TableCell>
-                                    <span className='font-semibold text-gray-700 dark:text-gray-200'>
-                                        {`${alumno.data.nombres} ${alumno.data.app} ${alumno.data.apm}`}
-                                    </span>
-                                    <p className='text-sm text-gray-500 dark:text-gray-300'>{alumno.matricula}</p>
-                                </TableCell>
-                                <TableCell>Tercer Semestre</TableCell>
-                                <TableCell>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger>
-                                            Opciones
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent>
-                                            <DropdownMenuItem>
-                                                Reporte
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </TableCell>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+                                    return (
+                                        <TableHead key={header.id}>
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(
+                                                      header.column.columnDef
+                                                          .header,
+                                                      header.getContext(),
+                                                  )}
+                                        </TableHead>
+                                    );
+                                })}
                             </TableRow>
                         ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows.length ? (
+                            table.getRowModel().rows.filter(row => row.original.plantel_id === user.plantel_id).map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext(),
+                                            )}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={columns.length}
+                                    className="h-24 text-center"
+                                >
+                                    No results.
+                                </TableCell>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
             </div>

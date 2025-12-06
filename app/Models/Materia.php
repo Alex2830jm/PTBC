@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Materia extends Model
 {
@@ -21,5 +22,9 @@ class Materia extends Model
 
     public function semestre(): BelongsTo {
         return $this->belongsTo(Semestre::class, 'semestre_id');
+    }
+
+    public function detalles_calificaciones(): HasMany {
+        return $this->hasMany(DetalleCalificacion::class, "materia_id");
     }
 }
