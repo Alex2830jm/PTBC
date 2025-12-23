@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("semestre_id");
             $table->unsignedBigInteger("plantel_id");
             $table->string("nombre_grupo");
+            $table->boolean('activo');
 
             $table->foreign("semestre_id", "fk_grupo_semestre")
                 ->references("id")

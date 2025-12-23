@@ -13,7 +13,7 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, GraduationCap, LayoutGrid, Settings, SpellCheck, User, Users } from 'lucide-react';
+import { BookOpen, Folder, GraduationCap, LayoutGrid, School, Settings, SpellCheck, User, Users, UsersRound } from 'lucide-react';
 import AppLogo from './app-logo';
 import docente from '@/routes/docente';
 import alumno from '@/routes/alumno';
@@ -67,6 +67,11 @@ const mainNavItems = {
         {
             title: 'Grupos',
             href: alumno.index(),
+            icon: School
+        },
+        {
+            title: 'Gestión Escolar',
+            href: gestion.home(),
             icon: Settings
         }
     ]
