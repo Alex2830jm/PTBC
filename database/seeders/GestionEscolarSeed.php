@@ -2,11 +2,16 @@
 
 namespace Database\Seeders;
 
+<<<<<<< HEAD
 use App\Models\Materia;
 use App\Models\Plantel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+=======
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+>>>>>>> 9560799d2f8e6abc26c0ed19eeff639556bda5a3
 
 class GestionEscolarSeed extends Seeder
 {
@@ -15,6 +20,7 @@ class GestionEscolarSeed extends Seeder
      */
     public function run(): void
     {
+<<<<<<< HEAD
         //Registro de Semestres
         DB::table('semestres')->insert([
             ['semestre' => 'Primer Semestre', 'num_semestre' => 1, 'activo' => true,],
@@ -38,5 +44,8 @@ class GestionEscolarSeed extends Seeder
             ['semestre_id' => 1, 'nombre_materia' => 'Materia, pensamiento matemático y tecnología', 'clave_materia' => 'MPMT - 01'],
             ['semestre_id' => 1, 'nombre_materia' => 'Sociedad y cultura I', 'clave_materia' => 'SC - 01'],
         ]);
+=======
+        //
+>>>>>>> 9560799d2f8e6abc26c0ed19eeff639556bda5a3
     }
 }

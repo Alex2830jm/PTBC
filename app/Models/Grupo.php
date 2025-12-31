@@ -11,5 +11,6 @@ class Grupo extends Model
         "semestre_id",
         "plantel_id",
         "nombre_plantel",
+        "activo"
     ];
 }

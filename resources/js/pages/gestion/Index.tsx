@@ -12,6 +12,7 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: 'gestion'
     }
 ];
+
 export default function Index() {
     const user = usePage().props.auth.user;
     console.log(user);
@@ -22,7 +23,7 @@ export default function Index() {
             <Head title='Gestión Escolar' />
 
             <div className='grid grid-cols-1 gap-5 md:grid-cols-3'>
-                {user.role == 1 && (
+                {user.role == 1 || user.role == 2 && (
                     <>
                         <Item variant='outline'>
                             <ItemContent>
@@ -43,6 +44,10 @@ export default function Index() {
                                 </Link>
                             </ItemActions>
                         </Item>
+                    </>
+                )}
+                {user.role == 1 || user.role == 2 && (
+                    <>
                         <Item variant='outline'>
                             <ItemContent>
                                 <ItemTitle>Gestión de Ciclo Escolar</ItemTitle>
@@ -51,27 +56,8 @@ export default function Index() {
                                 </ItemDescription>
                             </ItemContent>
                             <ItemActions>
-                                <Button variant='outline' size="sm">
-                                    Ver
-                                </Button>
-                            </ItemActions>
-                        </Item>
-                        <Item variant='outline'>
-                            <ItemContent>
-                                <ItemTitle>Planteles</ItemTitle>
-                                <ItemDescription>
-                                    Se muestra el listado de planteles con los que cuenta la zona 11 de Telebachillerato Comunitario
-                                </ItemDescription>
-                            </ItemContent>
-                            <ItemActions>
-                                <Link 
-                                    href={gestion.planteles.index()}
-                                >
-                                    <Button 
-                                        variant='outline' 
-                                        size="sm"
-                                        className='cursor-pointer'
-                                    >
+                                <Link href={gestion.cliclo_escolar()}>
+                                    <Button variant='outline' size="sm">
                                         Ver
                                     </Button>
                                 </Link>
@@ -79,8 +65,7 @@ export default function Index() {
                         </Item>
                     </>
                 )}
-
-                {user.role == 2 && (
+                {user.role == 1 && (
                     <>
                         <Item variant='outline'>
                             <ItemContent>
@@ -105,6 +90,32 @@ export default function Index() {
                         </Item>
                     </>
                 )}
+
+                {/* {user.role == 1 && (
+                    <>
+                        <Item variant='outline'>
+                            <ItemContent>
+                                <ItemTitle>Planteles</ItemTitle>
+                                <ItemDescription>
+                                    Se muestra el listado de planteles con los que cuenta la zona 11 de Telebachillerato Comunitario
+                                </ItemDescription>
+                            </ItemContent>
+                            <ItemActions>
+                                <Link 
+                                    href={gestion.planteles.index()}
+                                >
+                                    <Button 
+                                        variant='outline' 
+                                        size="sm"
+                                        className='cursor-pointer'
+                                    >
+                                        Ver
+                                    </Button>
+                                </Link>
+                            </ItemActions>
+                        </Item>
+                    </>
+                )} */}
             </div>
         </AppLayout>
     )

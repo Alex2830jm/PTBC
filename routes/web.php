@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\CalificacionController;
 use App\Http\Controllers\DocenteController;
+use App\Http\Controllers\GestionEscolarController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\PlantelesController;
 use App\Http\Controllers\UserController;
@@ -36,13 +37,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('gestion')->name('gestion.')->group(function () {
-        Route::get("/", function () {
-            return Inertia::render('gestion/Index');
-        })->name('home');
+        Route::controller(GestionEscolarController::class)->group(function () {
+            Route::get("/", function () {
+                return Inertia::render('gestion/Index');
+            })->name('home');
+            Route::get('/ciclo_escolar', 'indexCicloEscolar')->name('cliclo_escolar');
+            Route::post('/update_periodo_escolar/{plantel}', 'updatePeriodoEscolar')->name('update_periodo');
+        });
 
         Route::prefix('materias')->name('materias.')->controller(MateriaController::class)->group(function() {
             Route::get("/", [MateriaController::class, 'index'])->name("index");
-            Route::post('/store', [MateriaController::class, 'store'])->name('store');
+            Route::put('/store', [MateriaController::class, 'store'])->name('store');
         });
 
         Route::prefix("planteles")->name("planteles.")->controller(PlantelesController::class)->group(function () {

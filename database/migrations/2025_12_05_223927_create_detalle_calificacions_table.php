@@ -13,12 +13,20 @@ return new class extends Migration
     {
         Schema::create('detalle_calificaciones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("calificacion_id");
-            $table->unsignedBigInteger("materia_id");
-            $table->double("primer_modulo");
-            $table->double("segundo_modulo");
-            $table->double("tercer_modulo");
-            $table->double("calificacion_final");
+            $table->unsignedBigInteger('calificacion_id');
+            $table->unsignedBigInteger('materia_id');
+            $table->double('primer_modulo');
+            $table->double('segundo_modulo');
+            $table->double('tercer_modulo');
+            $table->double('calificacion_final');
+
+            $table->foreign('calificacion_id', 'fk_calificacion_detalles')
+                ->references('id')
+                ->on('calificaciones');
+
+            $table->foreign('materia_id', 'fk_materia_calificaciones')
+                ->references('id')
+                ->on('materias');
             $table->timestamps();
         });
     }

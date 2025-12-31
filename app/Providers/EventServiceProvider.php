@@ -13,9 +13,15 @@ class EventServiceProvider extends ServiceProvider
 
         ],
 
+        //Evento para registrar usuario y completar información de acuerdo al rol
         \App\Events\UserRegistered::class => [
             \App\Listeners\CompleteUserData::class
-        ]
+        ],
+
+        //Evento para crear las calificaciones de un alumno
+        \App\Events\StudentSchoolPeriodProcess::class => [
+            \App\Listeners\GradesBySemester::class
+        ],
     ]; 
 
     /**
