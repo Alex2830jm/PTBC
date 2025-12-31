@@ -232,7 +232,7 @@ export default function CreateDocente({semestres}: {semestres: ListSemestreMater
                                 <Label htmlFor="fecha_ingreso">
                                     Fecha de Ingreso
                                 </Label>
-                                <Popover open={open} onOpenChange={setOpen}>
+                                {/* <Popover open={open} onOpenChange={setOpen}>
                                     <PopoverTrigger asChild>
                                         <div className='flex w-full max-w-sm items-center gap-2'>
                                             <Input 
@@ -261,7 +261,13 @@ export default function CreateDocente({semestres}: {semestres: ListSemestreMater
                                             }}
                                         />
                                     </PopoverContent>
-                                </Popover>
+                                </Popover> */}
+                                <Input
+                                    type='date'
+                                    id='fecha_ingreso'
+                                    placeholder=''
+                                    name='fecha_ingreso'
+                                />
                             </div>
 
                             <div className='col-span-full'>

@@ -30,7 +30,11 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Alex Martínez',
                 'password' => Hash::make('pichojos15'),
+                'role'  => 1,
             ]
         );
+        $this->call([
+            GestionEscolarSeed::class,
+        ]);
     }
 }
